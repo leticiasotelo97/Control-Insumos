@@ -42,6 +42,7 @@
       gap: 16px;
       width: 100%;
       max-width: 500px;
+      margin-bottom: 20px;
     }
 
     .card {
@@ -55,11 +56,16 @@
       box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
+      border: 3px solid transparent;
     }
 
     .card:hover {
       transform: scale(1.03);
-      box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
+    }
+
+    .card.seleccionado {
+      border: 3px solid #00f0ff;
+      box-shadow: 0 0 15px 5px rgba(0, 208, 255, 0.6);
     }
 
     .card-text {
@@ -74,18 +80,27 @@
       font-size: 16px;
     }
 
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: var(--azul-principal);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
     #resultado {
       margin-top: 30px;
       font-size: 16px;
       font-weight: bold;
       text-align: center;
-    }
-
-    @media (hover: none) {
-      .card:hover {
-        transform: none;
-        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
-      }
     }
   </style>
 </head>
@@ -95,31 +110,53 @@
   <p>Selecciona una estación:</p>
 
   <div class="estaciones">
-    <div class="card" style="background-image: url('https://i.imgur.com/C9xhwrz.jpeg');" onclick="registrarConsumo('hotdogs')">
+    <div class="card" style="background-image: url('https://i.imgur.com/C9xhwrz.jpeg');" onclick="seleccionarEstacion('hotdogs', this)">
       <div class="card-text">Hot Dogs</div>
     </div>
-    <div class="card" style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');" onclick="registrarConsumo('tacos')">
+    <div class="card" style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');" onclick="seleccionarEstacion('tacos', this)">
       <div class="card-text">Tacos</div>
     </div>
-    <div class="card" style="background-image: url('https://i.imgur.com/RfgSild.jpeg');" onclick="registrarConsumo('papas')">
+    <div class="card" style="background-image: url('https://i.imgur.com/RfgSild.jpeg');" onclick="seleccionarEstacion('papas', this)">
       <div class="card-text">Papas Fritas</div>
     </div>
-    <div class="card" style="background-image: url('https://i.imgur.com/3ThEDA2.jpeg');" onclick="registrarConsumo('dulces')">
+    <div class="card" style="background-image: url('https://i.imgur.com/3ThEDA2.jpeg');" onclick="seleccionarEstacion('dulces', this)">
       <div class="card-text">Dulces</div>
     </div>
   </div>
+
+  <button id="btnCanjear" onclick="registrarConsumo()" disabled>Canjear</button>
 
   <div id="resultado"></div>
 
   <script>
     const urlScript = 'https://script.google.com/macros/s/AKfycbzwtnjTDrDYiipgoYsdryGfNTAWF9uLmTFzQbze-xs8MWlFFUzLrqXzMSox5b45T0dh/exec';
 
+    let estacionSeleccionada = null;
+
     function getParametro(nombre) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(nombre);
     }
 
-    function registrarConsumo(estacion) {
+    function seleccionarEstacion(nombre, element) {
+      estacionSeleccionada = nombre;
+
+      // Quitar clase de todos
+      document.querySelectorAll('.card').forEach(card => {
+        card.classList.remove('seleccionado');
+      });
+
+      // Agregar clase al seleccionado
+      element.classList.add('seleccionado');
+
+      // Habilitar el botón
+      document.getElementById('btnCanjear').disabled = false;
+
+      // Limpiar resultado
+      document.getElementById('resultado').textContent = '';
+    }
+
+    function registrarConsumo() {
       const invitado = getParametro('invitado');
       const resultado = document.getElementById('resultado');
 
@@ -129,7 +166,17 @@
         return;
       }
 
-      fetch(`${urlScript}?invitado=${encodeURIComponent(invitado)}&estacion=${encodeURIComponent(estacion)}`)
+      if (!estacionSeleccionada) {
+        resultado.textContent = '❌ No se ha seleccionado ninguna estación.';
+        resultado.style.color = 'red';
+        return;
+      }
+
+      // Mostrar mensaje de carga
+      resultado.textContent = '⏳ Cargando...';
+      resultado.style.color = 'black';
+
+      fetch(`${urlScript}?invitado=${encodeURIComponent(invitado)}&estacion=${encodeURIComponent(estacionSeleccionada)}`)
         .then(res => res.json())
         .then(data => {
           resultado.textContent = data.message;
