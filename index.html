@@ -241,43 +241,42 @@
       document.getElementById("resultado").textContent = "";
     }
 
-    function registrarConsumo() {
-      const invitado = getParametro("invitado");
-      const resultado = document.getElementById("resultado");
+   function registrarConsumo() {
+  const invitado = getParametro("invitado");
+  const resultado = document.getElementById("resultado");
 
-      if (!invitado) {
-        resultado.textContent =
-          "❌ Invitado no identificado. Faltó el parámetro ?invitado=";
-        resultado.style.color = "red";
-        return;
-      }
+  if (!invitado) {
+    resultado.textContent =
+      "❌ Invitado no identificado. Faltó el parámetro ?invitado=";
+    resultado.style.color = "red";
+    return;
+  }
 
-      if (!estacionSeleccionada) {
-        resultado.textContent = "❌ No se ha seleccionado ninguna estación.";
-        resultado.style.color = "red";
-        return;
-      }
+  if (!estacionSeleccionada) {
+    resultado.textContent = "❌ No se ha seleccionado ninguna estación.";
+    resultado.style.color = "red";
+    return;
+  }
 
-      // Mostrar mensaje de carga
-      resultado.textContent = "⏳ Cargando...";
-      resultado.style.color = "black";
+  resultado.textContent = "⏳ Cargando...";
+  resultado.style.color = "black";
 
-      fetch(
-        `${urlScript}?invitado=${encodeURIComponent(
-          invitado
-        )}&estacion=${encodeURIComponent(estacionSeleccionada)}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          resultado.textContent = data.message;
-          resultado.style.color = data.success ? "green" : "red";
-        })
-        .catch((error) => {
-          resultado.textContent = "❌ Error de conexión.";
-          resultado.style.color = "red";
-          console.error(error);
-        });
-    }
+  const callbackName = "respuestaCanje_" + Math.floor(Math.random() * 1000000);
+
+  window[callbackName] = function (data) {
+    resultado.textContent = data.message;
+    resultado.style.color = data.success ? "green" : "red";
+
+    script.remove();
+    delete window[callbackName];
+  };
+
+  const script = document.createElement("script");
+  script.src = `${urlScript}?invitado=${encodeURIComponent(
+    invitado
+  )}&estacion=${encodeURIComponent(estacionSeleccionada)}&callback=${callbackName}`;
+  document.body.appendChild(script);
+}
   </script>
 </body>
 </html>
