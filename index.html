@@ -2,46 +2,112 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro de Consumos</title>
   <style>
+    :root {
+      --azul-principal: #007BFF;
+      --azul-claro: #E3F2FD;
+      --texto-principal: #003366;
+      --fondo: #ffffff;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f3f3f3;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--fondo);
+      color: var(--texto-principal);
+      margin: 0;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 30px;
     }
 
     h1 {
-      color: #333;
+      color: var(--texto-principal);
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 10px;
     }
 
-    select, button {
+    p {
       font-size: 16px;
-      padding: 10px;
-      margin: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .estaciones {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* cuadrado */
+      border-radius: 12px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
+    }
+
+    .card-text {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
+      color: var(--texto-principal);
+      text-align: center;
+      padding: 8px;
+      font-weight: bold;
+      font-size: 16px;
     }
 
     #resultado {
-      margin-top: 20px;
+      margin-top: 30px;
+      font-size: 16px;
       font-weight: bold;
+      text-align: center;
+    }
+
+    @media (hover: none) {
+      .card:hover {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+      }
     }
   </style>
 </head>
 <body>
 
   <h1>Registro de Consumo</h1>
+  <p>Selecciona una estación:</p>
 
-  <p>Estación:</p>
-  <select id="estacion">
-    <option value="tacos">Tacos</option>
-    <option value="papas">Papas Fritas</option>
-    <option value="hotdogs">Hot Dogs</option>
-    <option value="dulces">Dulces</option>
-  </select>
-
-  <button onclick="registrarConsumo()">Registrar Consumo</button>
+  <div class="estaciones">
+    <div class="card" style="background-image: url('https://i.imgur.com/C9xhwrz.jpeg');" onclick="registrarConsumo('hotdogs')">
+      <div class="card-text">Hot Dogs</div>
+    </div>
+    <div class="card" style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');" onclick="registrarConsumo('tacos')">
+      <div class="card-text">Tacos</div>
+    </div>
+    <div class="card" style="background-image: url('https://i.imgur.com/RfgSild.jpeg');" onclick="registrarConsumo('papas')">
+      <div class="card-text">Papas Fritas</div>
+    </div>
+    <div class="card" style="background-image: url('https://i.imgur.com/3ThEDA2.jpeg');" onclick="registrarConsumo('dulces')">
+      <div class="card-text">Dulces</div>
+    </div>
+  </div>
 
   <div id="resultado"></div>
 
@@ -53,9 +119,8 @@
       return urlParams.get(nombre);
     }
 
-    function registrarConsumo() {
+    function registrarConsumo(estacion) {
       const invitado = getParametro('invitado');
-      const estacion = document.getElementById('estacion').value;
       const resultado = document.getElementById('resultado');
 
       if (!invitado) {
@@ -80,3 +145,4 @@
 
 </body>
 </html>
+
