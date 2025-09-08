@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro de Consumos</title>
   <style>
     :root {
@@ -11,9 +11,9 @@
       --texto-principal: #003366;
       --fondo: #ffffff;
     }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-        sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       background: var(--fondo);
       color: var(--texto-principal);
       margin: 0;
@@ -22,17 +22,20 @@
       flex-direction: column;
       align-items: center;
     }
+
     h1 {
       color: var(--texto-principal);
       font-size: 24px;
       text-align: center;
       margin-bottom: 10px;
     }
+
     p {
       font-size: 16px;
       text-align: center;
       margin-bottom: 20px;
     }
+
     .estaciones {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -41,6 +44,7 @@
       max-width: 500px;
       margin-bottom: 20px;
     }
+
     .card {
       position: relative;
       width: 100%;
@@ -54,13 +58,16 @@
       transition: transform 0.2s, box-shadow 0.2s;
       border: 3px solid transparent;
     }
+
     .card:hover {
       transform: scale(1.03);
     }
+
     .card.seleccionado {
       border: 3px solid #00f0ff;
       box-shadow: 0 0 15px 5px rgba(0, 208, 255, 0.6);
     }
+
     .card-text {
       position: absolute;
       bottom: 0;
@@ -72,6 +79,7 @@
       font-weight: bold;
       font-size: 16px;
     }
+
     button {
       padding: 12px 24px;
       font-size: 16px;
@@ -82,139 +90,46 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
+
     button:disabled {
       background-color: #cccccc;
       cursor: not-allowed;
     }
+
     #resultado {
       margin-top: 30px;
       font-size: 16px;
       font-weight: bold;
       text-align: center;
     }
-    /* Estilos para el login */
-    #login {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      flex-direction: column;
-      font-family: sans-serif;
-      background: #f5f9ff;
-    }
-    #login input {
-      padding: 10px;
-      font-size: 16px;
-      margin: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    #login button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    #login p#errorClave {
-      color: red;
-      margin-top: 10px;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Bloque login -->
-  <div id="login">
-    <h2>🔐 Acceso restringido</h2>
-    <p>Ingresa la contraseña para continuar:</p>
-    <input type="password" id="inputPassword" placeholder="Contraseña" />
-    <button id="btnLogin">Entrar</button>
-    <p id="errorClave"></p>
-  </div>
+  <h1>Registro de Consumo</h1>
+  <p>Selecciona una estación:</p>
 
-  <!-- Bloque contenido principal -->
-  <div id="mainContent">
-    <h1>Registro de Consumo</h1>
-    <p>Selecciona una estación:</p>
-
-    <div class="estaciones">
-      <div
-        class="card"
-        style="background-image: url('https://i.imgur.com/C9xhwrz.jpeg');"
-        onclick="seleccionarEstacion('hotdogs', this)"
-      >
-        <div class="card-text">Hot Dogs</div>
-      </div>
-      <div
-        class="card"
-        style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');"
-        onclick="seleccionarEstacion('tacos', this)"
-      >
-        <div class="card-text">Tacos</div>
-      </div>
-      <div
-        class="card"
-        style="background-image: url('https://i.imgur.com/RfgSild.jpeg');"
-        onclick="seleccionarEstacion('papas', this)"
-      >
-        <div class="card-text">Papas Fritas</div>
-      </div>
-      <div
-        class="card"
-        style="background-image: url('https://i.imgur.com/3ThEDA2.jpeg');"
-        onclick="seleccionarEstacion('dulces', this)"
-      >
-        <div class="card-text">Dulces</div>
-      </div>
+  <div class="estaciones">
+    <div class="card" style="background-image: url('https://i.imgur.com/C9xhwrz.jpeg');" onclick="seleccionarEstacion('hotdogs', this)">
+      <div class="card-text">Hot Dogs</div>
     </div>
-
-    <button id="btnCanjear" onclick="registrarConsumo()" disabled>Canjear</button>
-
-    <div id="resultado"></div>
+    <div class="card" style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');" onclick="seleccionarEstacion('tacos', this)">
+      <div class="card-text">Tacos</div>
+    </div>
+    <div class="card" style="background-image: url('https://i.imgur.com/RfgSild.jpeg');" onclick="seleccionarEstacion('papas', this)">
+      <div class="card-text">Papas Fritas</div>
+    </div>
+    <div class="card" style="background-image: url('https://i.imgur.com/3ThEDA2.jpeg');" onclick="seleccionarEstacion('dulces', this)">
+      <div class="card-text">Dulces</div>
+    </div>
   </div>
+
+  <button id="btnCanjear" onclick="registrarConsumo()" disabled>Canjear</button>
+
+  <div id="resultado"></div>
 
   <script>
-    const CONTRASEÑA_CORRECTA = "elizabeth";
-
-    const loginDiv = document.getElementById("login");
-    const mainContent = document.getElementById("mainContent");
-    const btnLogin = document.getElementById("btnLogin");
-    const errorClave = document.getElementById("errorClave");
-
-    function checkAccess() {
-      const claveGuardada = localStorage.getItem("clave_trabajador");
-      if (claveGuardada === CONTRASEÑA_CORRECTA) {
-        loginDiv.style.display = "none";
-        mainContent.style.display = "flex";
-        mainContent.style.flexDirection = "column";
-        mainContent.style.alignItems = "center";
-      } else {
-        loginDiv.style.display = "flex";
-        mainContent.style.display = "none";
-      }
-    }
-
-    btnLogin.addEventListener("click", () => {
-      const claveIngresada = document.getElementById("inputPassword").value;
-      if (claveIngresada === CONTRASEÑA_CORRECTA) {
-        localStorage.setItem("clave_trabajador", claveIngresada);
-        errorClave.textContent = "";
-        checkAccess();
-      } else {
-        errorClave.textContent = "❌ Contraseña incorrecta";
-      }
-    });
-
-    // Al cargar la página, verificar acceso
-    checkAccess();
-
-    // === Tu código original ===
-
-    const urlScript =
-      "https://script.google.com/macros/s/AKfycbzwtnjTDrDYiipgoYsdryGfNTAWF9uLmTFzQbze-xs8MWlFFUzLrqXzMSox5b45T0dh/exec";
+    const urlScript = 'https://script.google.com/macros/s/AKfycbzwtnjTDrDYiipgoYsdryGfNTAWF9uLmTFzQbze-xs8MWlFFUzLrqXzMSox5b45T0dh/exec';
 
     let estacionSeleccionada = null;
 
@@ -227,56 +142,53 @@
       estacionSeleccionada = nombre;
 
       // Quitar clase de todos
-      document.querySelectorAll(".card").forEach((card) => {
-        card.classList.remove("seleccionado");
+      document.querySelectorAll('.card').forEach(card => {
+        card.classList.remove('seleccionado');
       });
 
       // Agregar clase al seleccionado
-      element.classList.add("seleccionado");
+      element.classList.add('seleccionado');
 
       // Habilitar el botón
-      document.getElementById("btnCanjear").disabled = false;
+      document.getElementById('btnCanjear').disabled = false;
 
       // Limpiar resultado
-      document.getElementById("resultado").textContent = "";
+      document.getElementById('resultado').textContent = '';
     }
 
-   function registrarConsumo() {
-  const invitado = getParametro("invitado");
-  const resultado = document.getElementById("resultado");
+    function registrarConsumo() {
+      const invitado = getParametro('invitado');
+      const resultado = document.getElementById('resultado');
 
-  if (!invitado) {
-    resultado.textContent =
-      "❌ Invitado no identificado. Faltó el parámetro ?invitado=";
-    resultado.style.color = "red";
-    return;
-  }
+      if (!invitado) {
+        resultado.textContent = '❌ Invitado no identificado. Faltó el parámetro ?invitado=';
+        resultado.style.color = 'red';
+        return;
+      }
 
-  if (!estacionSeleccionada) {
-    resultado.textContent = "❌ No se ha seleccionado ninguna estación.";
-    resultado.style.color = "red";
-    return;
-  }
+      if (!estacionSeleccionada) {
+        resultado.textContent = '❌ No se ha seleccionado ninguna estación.';
+        resultado.style.color = 'red';
+        return;
+      }
 
-  resultado.textContent = "⏳ Cargando...";
-  resultado.style.color = "black";
+      // Mostrar mensaje de carga
+      resultado.textContent = '⏳ Cargando...';
+      resultado.style.color = 'black';
 
-  const callbackName = "respuestaCanje_" + Math.floor(Math.random() * 1000000);
-
-  window[callbackName] = function (data) {
-    resultado.textContent = data.message;
-    resultado.style.color = data.success ? "green" : "red";
-
-    script.remove();
-    delete window[callbackName];
-  };
-
-  const script = document.createElement("script");
-  script.src = `${urlScript}?invitado=${encodeURIComponent(
-    invitado
-  )}&estacion=${encodeURIComponent(estacionSeleccionada)}&callback=${callbackName}`;
-  document.body.appendChild(script);
-}
+      fetch(`${urlScript}?invitado=${encodeURIComponent(invitado)}&estacion=${encodeURIComponent(estacionSeleccionada)}`)
+        .then(res => res.json())
+        .then(data => {
+          resultado.textContent = data.message;
+          resultado.style.color = data.success ? 'green' : 'red';
+        })
+        .catch(error => {
+          resultado.textContent = '❌ Error de conexión.';
+          resultado.style.color = 'red';
+          console.error(error);
+        });
+    }
   </script>
+
 </body>
 </html>
