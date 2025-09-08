@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Consumos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    select, button {
+      font-size: 16px;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Registro de Consumo</h1>
+
+  <p>Estación:</p>
+  <select id="estacion">
+    <option value="tacos">Tacos</option>
+    <option value="papas">Papas Fritas</option>
+    <option value="hotdogs">Hot Dogs</option>
+    <option value="dulces">Dulces</option>
+  </select>
+
+  <button onclick="registrarConsumo()">Registrar Consumo</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    const urlScript = 'https://script.google.com/macros/s/AKfycbzwtnjTDrDYiipgoYsdryGfNTAWF9uLmTFzQbze-xs8MWlFFUzLrqXzMSox5b45T0dh/exec';
+
+    function getParametro(nombre) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(nombre);
+    }
+
+    function registrarConsumo() {
+      const invitado = getParametro('invitado');
+      const estacion = document.getElementById('estacion').value;
+      const resultado = document.getElementById('resultado');
+
+      if (!invitado) {
+        resultado.textContent = '❌ Invitado no identificado. Faltó el parámetro ?invitado=';
+        resultado.style.color = 'red';
+        return;
+      }
+
+      fetch(`${urlScript}?invitado=${encodeURIComponent(invitado)}&estacion=${encodeURIComponent(estacion)}`)
+        .then(res => res.json())
+        .then(data => {
+          resultado.textContent = data.message;
+          resultado.style.color = data.success ? 'green' : 'red';
+        })
+        .catch(error => {
+          resultado.textContent = '❌ Error de conexión.';
+          resultado.style.color = 'red';
+          console.error(error);
+        });
+    }
+  </script>
+
+</body>
+</html>
