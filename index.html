@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registro de Consumos</title>
   <style>
     :root {
@@ -48,7 +48,7 @@
     .card {
       position: relative;
       width: 100%;
-      padding-top: 100%; /* cuadrado */
+      padding-top: 100%;
       border-radius: 12px;
       overflow: hidden;
       background-size: cover;
@@ -106,31 +106,43 @@
 </head>
 <body>
 
-  <h1>Registro de Consumo</h1>
-  <p>Selecciona una estación:</p>
-
-  <div class="estaciones">
-    <div class="card" style="background-image: url('https://i.imgur.com/C9xhwrz.jpeg');" onclick="seleccionarEstacion('hotdogs', this)">
-      <div class="card-text">Hot Dogs</div>
-    </div>
-    <div class="card" style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');" onclick="seleccionarEstacion('tacos', this)">
-      <div class="card-text">Tacos</div>
-    </div>
-    <div class="card" style="background-image: url('https://i.imgur.com/RfgSild.jpeg');" onclick="seleccionarEstacion('papas', this)">
-      <div class="card-text">Papas Fritas</div>
-    </div>
-    <div class="card" style="background-image: url('https://i.imgur.com/3ThEDA2.jpeg');" onclick="seleccionarEstacion('dulces', this)">
-      <div class="card-text">Dulces</div>
-    </div>
+  <!-- Pantalla de bloqueo -->
+  <div id="bloqueo" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f5f9ff; font-family: sans-serif;">
+    <h2>🔐 Acceso restringido</h2>
+    <p>Ingresa la contraseña para continuar:</p>
+    <input type="password" id="inputPassword" placeholder="Contraseña" style="padding: 10px; font-size: 16px; margin: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    <button onclick="verificarClave()" style="padding: 10px 20px; font-size: 16px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Entrar</button>
+    <p id="errorClave" style="color: red; margin-top: 10px;"></p>
   </div>
 
-  <button id="btnCanjear" onclick="registrarConsumo()" disabled>Canjear</button>
+  <!-- Contenido principal (oculto por defecto) -->
+  <div id="contenido" style="display: none;">
+    <h1>Registro de Consumo</h1>
+    <p>Selecciona una estación:</p>
 
-  <div id="resultado"></div>
+    <div class="estaciones">
+      <div class="card" style="background-image: url('https://i.imgur.com/C9xhwrz.jpeg');" onclick="seleccionarEstacion('hotdogs', this)">
+        <div class="card-text">Hot Dogs</div>
+      </div>
+      <div class="card" style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');" onclick="seleccionarEstacion('tacos', this)">
+        <div class="card-text">Tacos</div>
+      </div>
+      <div class="card" style="background-image: url('https://i.imgur.com/RfgSild.jpeg');" onclick="seleccionarEstacion('papas', this)">
+        <div class="card-text">Papas Fritas</div>
+      </div>
+      <div class="card" style="background-image: url('https://i.imgur.com/3ThEDA2.jpeg');" onclick="seleccionarEstacion('dulces', this)">
+        <div class="card-text">Dulces</div>
+      </div>
+    </div>
+
+    <button id="btnCanjear" onclick="registrarConsumo()" disabled>Canjear</button>
+
+    <div id="resultado"></div>
+  </div>
 
   <script>
     const urlScript = 'https://script.google.com/macros/s/AKfycbzwtnjTDrDYiipgoYsdryGfNTAWF9uLmTFzQbze-xs8MWlFFUzLrqXzMSox5b45T0dh/exec';
-
+    const CONTRASEÑA_CORRECTA = "elizabeth"; // Cambia aquí la contraseña si lo necesitas
     let estacionSeleccionada = null;
 
     function getParametro(nombre) {
@@ -140,19 +152,11 @@
 
     function seleccionarEstacion(nombre, element) {
       estacionSeleccionada = nombre;
-
-      // Quitar clase de todos
       document.querySelectorAll('.card').forEach(card => {
         card.classList.remove('seleccionado');
       });
-
-      // Agregar clase al seleccionado
       element.classList.add('seleccionado');
-
-      // Habilitar el botón
       document.getElementById('btnCanjear').disabled = false;
-
-      // Limpiar resultado
       document.getElementById('resultado').textContent = '';
     }
 
@@ -172,7 +176,6 @@
         return;
       }
 
-      // Mostrar mensaje de carga
       resultado.textContent = '⏳ Cargando...';
       resultado.style.color = 'black';
 
@@ -188,39 +191,27 @@
           console.error(error);
         });
     }
-  </script>
-<script>
-  const CONTRASEÑA_CORRECTA = "elizabeth"; // Cambia esto a tu clave real
 
-  // Verificar si ya está logueado
-  const claveGuardada = localStorage.getItem("clave_trabajador");
-
-  if (claveGuardada !== CONTRASEÑA_CORRECTA) {
-    // Ocultar todo
-    document.body.innerHTML = `
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f5f9ff; font-family: sans-serif;">
-        <h2>🔐 Acceso restringido</h2>
-        <p>Ingresa la contraseña para continuar:</p>
-        <input type="password" id="inputPassword" placeholder="Contraseña" style="padding: 10px; font-size: 16px; margin: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <button onclick="verificarClave()" style="padding: 10px 20px; font-size: 16px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Entrar</button>
-        <p id="errorClave" style="color: red; margin-top: 10px;"></p>
-      </div>
-    `;
-  }
-
-  function verificarClave() {
-    const claveIngresada = document.getElementById("inputPassword").value;
-    const error = document.getElementById("errorClave");
-
-    if (claveIngresada === CONTRASEÑA_CORRECTA) {
-      localStorage.setItem("clave_trabajador", claveIngresada);
-      location.reload(); // Recarga para mostrar el contenido real
-    } else {
-      error.textContent = "❌ Contraseña incorrecta";
+    // Control de acceso
+    const claveGuardada = localStorage.getItem("clave_trabajador");
+    if (claveGuardada === CONTRASEÑA_CORRECTA) {
+      document.getElementById('bloqueo').style.display = 'none';
+      document.getElementById('contenido').style.display = 'block';
     }
-  }
-</script>
 
+    function verificarClave() {
+      const claveIngresada = document.getElementById("inputPassword").value;
+      const error = document.getElementById("errorClave");
+
+      if (claveIngresada === CONTRASEÑA_CORRECTA) {
+        localStorage.setItem("clave_trabajador", claveIngresada);
+        document.getElementById('bloqueo').style.display = 'none';
+        document.getElementById('contenido').style.display = 'block';
+      } else {
+        error.textContent = "❌ Contraseña incorrecta";
+      }
+    }
+  </script>
 </body>
 </html>
 
