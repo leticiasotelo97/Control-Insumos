@@ -189,6 +189,37 @@
         });
     }
   </script>
+<script>
+  const CONTRASEÑA_CORRECTA = "elizabeth"; // Cambia esto a tu clave real
+
+  // Verificar si ya está logueado
+  const claveGuardada = localStorage.getItem("clave_trabajador");
+
+  if (claveGuardada !== CONTRASEÑA_CORRECTA) {
+    // Ocultar todo
+    document.body.innerHTML = `
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f5f9ff; font-family: sans-serif;">
+        <h2>🔐 Acceso restringido</h2>
+        <p>Ingresa la contraseña para continuar:</p>
+        <input type="password" id="inputPassword" placeholder="Contraseña" style="padding: 10px; font-size: 16px; margin: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <button onclick="verificarClave()" style="padding: 10px 20px; font-size: 16px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Entrar</button>
+        <p id="errorClave" style="color: red; margin-top: 10px;"></p>
+      </div>
+    `;
+  }
+
+  function verificarClave() {
+    const claveIngresada = document.getElementById("inputPassword").value;
+    const error = document.getElementById("errorClave");
+
+    if (claveIngresada === CONTRASEÑA_CORRECTA) {
+      localStorage.setItem("clave_trabajador", claveIngresada);
+      location.reload(); // Recarga para mostrar el contenido real
+    } else {
+      error.textContent = "❌ Contraseña incorrecta";
+    }
+  }
+</script>
 
 </body>
 </html>
