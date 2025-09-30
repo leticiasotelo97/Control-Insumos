@@ -12,6 +12,7 @@
       --texto-principal: #1a1a1a;
       --fondo: #ffffff;
       --borde-seleccion: #3399ff;
+      --texto-hover: #007bff;
     }
 
     body {
@@ -37,20 +38,22 @@
       margin-bottom: 20px;
     }
 
+    /* CONTENEDOR */
     .estaciones {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      gap: 24px;
       width: 100%;
       max-width: 480px;
       margin-bottom: 20px;
     }
 
+    /* CARD */
     .card {
       position: relative;
       width: 100%;
-      padding-top: 115%;
-      border-radius: 16px;
+      padding-top: 200%; /* altura casi el doble que antes */
+      border-radius: 8px; /* menos redondeado */
       overflow: hidden;
       background-size: cover;
       background-position: center;
@@ -58,28 +61,45 @@
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s;
       border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .card:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0, 123, 255, 0.25);
+      border-color: var(--borde-seleccion);
     }
 
     .card.seleccionado {
       border: 3px solid var(--borde-seleccion);
-      box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
     }
 
+    /* TEXTO EN EL CENTRO */
     .card-text {
       position: absolute;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(255, 255, 255, 0.92);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.9);
       color: var(--texto-principal);
-      text-align: center;
-      padding: 10px;
       font-weight: 600;
-      font-size: 15px;
-      letter-spacing: 0.3px;
+      font-size: 18px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-align: center;
+      width: 80%;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      user-select: none;
+      pointer-events: none; /* para que click pase a la card */
+    }
+
+    /* Cambiar color texto al hover sobre la card */
+    .card:hover .card-text {
+      color: var(--texto-hover);
+      background-color: rgba(255, 255, 255, 1);
     }
 
     button {
@@ -288,4 +308,3 @@
   </script>
 </body>
 </html>
-
