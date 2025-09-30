@@ -4,16 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Registro de Consumos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --azul-principal: #007BFF;
-      --azul-claro: #E3F2FD;
-      --texto-principal: #003366;
+      --azul-suave: #d0e8ff;
+      --texto-principal: #1a1a1a;
       --fondo: #ffffff;
+      --borde-seleccion: #3399ff;
     }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-        sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--fondo);
       color: var(--texto-principal);
       margin: 0;
@@ -22,57 +24,64 @@
       flex-direction: column;
       align-items: center;
     }
+
     h1 {
-      color: var(--texto-principal);
-      font-size: 24px;
+      font-size: 22px;
       text-align: center;
       margin-bottom: 10px;
     }
+
     p {
       font-size: 16px;
       text-align: center;
       margin-bottom: 20px;
     }
+
     .estaciones {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  width: 100%;
-  max-width: 500px;
-  margin-bottom: 20px;
-}
- 
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 20px;
+    }
+
     .card {
       position: relative;
       width: 100%;
-      padding-top: 100%; /* cuadrado */
-      border-radius: 12px;
+      padding-top: 115%;
+      border-radius: 16px;
       overflow: hidden;
       background-size: cover;
       background-position: center;
-      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 3px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s;
+      border: 2px solid transparent;
     }
+
     .card:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
     }
+
     .card.seleccionado {
-      border: 3px solid #00f0ff;
-      box-shadow: 0 0 15px 5px rgba(0, 208, 255, 0.6);
+      border: 3px solid var(--borde-seleccion);
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
     }
+
     .card-text {
       position: absolute;
       bottom: 0;
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: rgba(255, 255, 255, 0.92);
       color: var(--texto-principal);
       text-align: center;
-      padding: 8px;
-      font-weight: bold;
-      font-size: 16px;
+      padding: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.3px;
     }
+
     button {
       padding: 12px 24px;
       font-size: 16px;
@@ -81,18 +90,21 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease;
     }
+
     button:disabled {
       background-color: #cccccc;
       cursor: not-allowed;
     }
+
     #resultado {
-      margin-top: 30px;
+      margin-top: 25px;
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 600;
       text-align: center;
     }
+
     /* Estilos para el login */
     #login {
       display: none;
@@ -100,28 +112,39 @@
       justify-content: center;
       height: 100vh;
       flex-direction: column;
-      font-family: sans-serif;
-      background: #f5f9ff;
+      font-family: 'Inter', sans-serif;
+      background: #f2f7fc;
     }
+
     #login input {
       padding: 10px;
       font-size: 16px;
       margin: 10px;
-      border-radius: 5px;
+      border-radius: 6px;
       border: 1px solid #ccc;
+      width: 80%;
+      max-width: 280px;
     }
+
     #login button {
       padding: 10px 20px;
       font-size: 16px;
       background-color: #007bff;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
     }
+
     #login p#errorClave {
       color: red;
       margin-top: 10px;
+    }
+
+    /* Ajuste especial para Coca Cola */
+    .card[onclick*="coca_cola"] {
+      background-size: 110% auto;
+      background-position: center center;
     }
   </style>
 </head>
@@ -141,37 +164,36 @@
     <h1>Registro de Consumo</h1>
     <p>Selecciona una estación:</p>
 
-<div class="estaciones">
-  <div
-    class="card"
-    style="background-image: url('https://i.imgur.com/AULjlQ1.jpeg');"
-    onclick="seleccionarEstacion('quequito', this)"
-  >
-    <div class="card-text">Quequito</div>
-  </div>
-  <div
-    class="card"
-    style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');"
-    onclick="seleccionarEstacion('tacos', this)"
-  >
-    <div class="card-text">Tacos</div>
-  </div>
-  <div
-    class="card"
-    style="background-image: url('https://i.imgur.com/CRfjAbi.png');"
-    onclick="seleccionarEstacion('coca_cola', this)"
-  >
-    <div class="card-text">Coca Cola</div>
-  </div>
-  <div
-    class="card"
-    style="background-image: url('https://i.imgur.com/CyTfWzi.jpeg');"
-    onclick="seleccionarEstacion('obsequios', this)"
-  >
-    <div class="card-text">Obsequios</div>
-  </div>
-</div>
-
+    <div class="estaciones">
+      <div
+        class="card"
+        style="background-image: url('https://i.imgur.com/AULjlQ1.jpeg');"
+        onclick="seleccionarEstacion('quequito', this)"
+      >
+        <div class="card-text">Quequito</div>
+      </div>
+      <div
+        class="card"
+        style="background-image: url('https://i.imgur.com/vauyY7X.jpeg');"
+        onclick="seleccionarEstacion('tacos', this)"
+      >
+        <div class="card-text">Tacos</div>
+      </div>
+      <div
+        class="card"
+        style="background-image: url('https://i.imgur.com/CRfjAbi.png');"
+        onclick="seleccionarEstacion('coca_cola', this)"
+      >
+        <div class="card-text">Coca Cola</div>
+      </div>
+      <div
+        class="card"
+        style="background-image: url('https://i.imgur.com/CyTfWzi.jpeg');"
+        onclick="seleccionarEstacion('obsequios', this)"
+      >
+        <div class="card-text">Obsequios</div>
+      </div>
+    </div>
 
     <button id="btnCanjear" onclick="registrarConsumo()" disabled>Canjear</button>
 
@@ -210,10 +232,7 @@
       }
     });
 
-    // Al cargar la página, verificar acceso
     checkAccess();
-
-    // === Tu código original ===
 
     const urlScript =
       "https://script.google.com/macros/s/AKfycbzwtnjTDrDYiipgoYsdryGfNTAWF9uLmTFzQbze-xs8MWlFFUzLrqXzMSox5b45T0dh/exec";
@@ -227,19 +246,11 @@
 
     function seleccionarEstacion(nombre, element) {
       estacionSeleccionada = nombre;
-
-      // Quitar clase de todos
       document.querySelectorAll(".card").forEach((card) => {
         card.classList.remove("seleccionado");
       });
-
-      // Agregar clase al seleccionado
       element.classList.add("seleccionado");
-
-      // Habilitar el botón
       document.getElementById("btnCanjear").disabled = false;
-
-      // Limpiar resultado
       document.getElementById("resultado").textContent = "";
     }
 
@@ -248,8 +259,7 @@
       const resultado = document.getElementById("resultado");
 
       if (!invitado) {
-        resultado.textContent =
-          "❌ Invitado no identificado. Faltó el parámetro ?invitado=";
+        resultado.textContent = "❌ Invitado no identificado. Faltó el parámetro ?invitado=";
         resultado.style.color = "red";
         return;
       }
@@ -260,15 +270,10 @@
         return;
       }
 
-      // Mostrar mensaje de carga
       resultado.textContent = "⏳ Cargando...";
       resultado.style.color = "black";
 
-      fetch(
-        `${urlScript}?invitado=${encodeURIComponent(
-          invitado
-        )}&estacion=${encodeURIComponent(estacionSeleccionada)}`
-      )
+      fetch(`${urlScript}?invitado=${encodeURIComponent(invitado)}&estacion=${encodeURIComponent(estacionSeleccionada)}`)
         .then((res) => res.json())
         .then((data) => {
           resultado.textContent = data.message;
